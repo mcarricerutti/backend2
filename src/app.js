@@ -1,14 +1,16 @@
 import { Server } from 'socket.io'
 import 'dotenv/config'
-import cartsRouter from './routes/carts.router.js'
-import productRouter from './routes/products.router.js'
 import { __dirname } from './utils.js'
 import handlebars from 'express-handlebars'
 import viewsRouter from './routes/views.router.js'
 import mensajes from './routes/message.router.js'
+import cartsRouter from './routes/carts.router.js'
+import productRouter from './routes/products.router.js'
 import express from 'express';
 import './persistencia/dbConfig.js'
 import sessionRouter from "./routes/session.router.js"
+import passport from 'passport'
+import initializePassport from "./passport.config.js";
 import session from 'express-session'
 import MongoStore from 'connect-mongo'
 import cookieParser from "cookie-parser";
@@ -19,13 +21,7 @@ const port = process.env.PORT;
 app.use(cookieParser(process.env.COOKIE_SECRET))//Firmo la cookie
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
-
 app.use(express.static(__dirname+'/public'))
-
-//motores de plantilla
-app.engine('handlebars',handlebars.engine())
-app.set('view engine', 'handlebars')
-app.set('views',__dirname+'/views')
 
 app.use(session({
     store: MongoStore.create({
@@ -40,6 +36,16 @@ app.use(session({
     resave:true,
     saveUninitialized: true
 }))
+
+initializePassport()
+app.use(passport.initialize())
+app.use(passport.session())
+
+
+//motores de plantilla
+app.engine('handlebars',handlebars.engine())
+app.set('view engine', 'handlebars')
+app.set('views',__dirname+'/views')
 
 app.use('api/products', express.static(__dirname +'/public'))
 app.use('/api/carts',cartsRouter)

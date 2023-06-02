@@ -1,6 +1,8 @@
-import { Schema, model } from "mongoose";
+import mongoose from "mongoose";
 
-const userSchema = new Schema({
+const userCollection = "users"
+
+const userSchema = new mongoose.Schema({
   first_name: {
     type: String,
     required: true,
@@ -28,5 +30,7 @@ const userSchema = new Schema({
   }
 });
 
-const userModel=model("users", userSchema)
-export default userModel;
+mongoose.set("strictQuery", false)
+const UserModel = mongoose.model(userCollection, userSchema)
+
+export default UserModel

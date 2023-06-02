@@ -23,9 +23,6 @@ router.get("/home", (req, res) => {
   res.render("home");
 });
 
-router.get("/datosUsuario", (req, res) => {
-  res.render("usuario");
-});
 
 
 

@@ -19,11 +19,35 @@ router.get("/agregar", (req, res) => {
   res.render("realTimeProducts");
 });
 
-router.get("/home", (req, res) => {
-  res.render("home");
-});
+router.get("/profile", (req,res) => {
+  res.render("profile");
+})
+
+router.get("/home", (req,res) => {
+  res.render("home")
+})
 
 
+
+router.get('/signup',(req,res)=>{
+  res.render('signup')
+})
+
+router.get('/errorSignup',(req,res)=>{
+  res.render('errorSignup')
+})
+
+router.get('/login',(req,res)=>{
+  res.render('login')
+})
+
+router.get('/profile',(req,res)=>{
+  res.render('profile',{email: req.session.email})
+})
+
+router.get('/errorLogin',(req,res)=>{
+  res.render('errorLogin')
+})
 
 
 export default router;

@@ -6,12 +6,7 @@ const router = Router();
 const manager = new Productos();
 const port = process.env.PORT;
 
-const auth = (req, res, next) => {
-  if(req.session.user) return next()
-  return res.send(`Error de authentication`)
-}
-
-router.get("/",auth, async (req, res) => {
+router.get("/", async (req, res) => {
   try {
       const { limit, page, sort, query } = req.query; //obtenemos el query limit page sort y query
       const objQuery = query!=undefined?JSON.parse(query):undefined;//query debe escribisrse en formato JSON en URL {"category":"kites","status":"true"}
@@ -96,35 +91,35 @@ router.delete("/", async (req, res) => {
 
 
 
-router.get("/realTimeProducts", async (req, res) => {
-  const io = req.io;
+// router.get("/realTimeProducts", async (req, res) => {
+//   const io = req.io;
 
-  //Conexion a socket.io
-  io.on('connection', async (socket) => {//cuando se establece la conexion envio un mensaje
-    console.log('Cliente conectado a RealTimeProducts');
+//   //Conexion a socket.io
+//   io.on('connection', async (socket) => {//cuando se establece la conexion envio un mensaje
+//     console.log('Cliente conectado a RealTimeProducts');
 
-    //Onload
-    socket.emit('server:onloadProducts', await productModel.find());
-    //DeleteProduct
-    socket.on('client:deleteProduct', (id) => { deleteProduct(id) })
+//     //Onload
+//     socket.emit('server:onloadProducts', await productModel.find());
+//     //DeleteProduct
+//     socket.on('client:deleteProduct', (id) => { deleteProduct(id) })
 
 
-    const deleteProduct = async (id) => {
-      await productModel.deleteOne({ _id: id });
-      const updatedProducts = await productModel.find();
-      socket.emit('server:updatedProducts', updatedProducts);
-    };
+//     const deleteProduct = async (id) => {
+//       await productModel.deleteOne({ _id: id });
+//       const updatedProducts = await productModel.find();
+//       socket.emit('server:updatedProducts', updatedProducts);
+//     };
 
-  });
+//   });
 
-  //Render
-  try {
-    const products = await productModel.find(); //obtenemos los productos
-    res.render("realTimeProducts", { products: products });
-  } catch (error) {
-    res.send("ERROR: " + error);
-  }
+//   //Render
+//   try {
+//     const products = await productModel.find(); //obtenemos los productos
+//     res.render("realTimeProducts", { products: products });
+//   } catch (error) {
+//     res.send("ERROR: " + error);
+//   }
 
-});
+// });
 
 export default router;

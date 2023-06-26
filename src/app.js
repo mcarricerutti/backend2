@@ -8,12 +8,13 @@ import cartsRouter from './routes/carts.router.js'
 import productRouter from './routes/products.router.js'
 import express from 'express';
 import './persistencia/dbConfig.js'
-import sessionRouter from "./routes/session.router.js"
-import passport from 'passport'
-import initializePassport from "./passport.config.js";
+import usersRouter from "./routes/session.router.js"
 import session from 'express-session'
 import MongoStore from 'connect-mongo'
 import cookieParser from "cookie-parser";
+import passport from 'passport'
+import './passportEstrategies.js'
+// import FileStore from 'session-file-store'
 
 const app = express()
 const port = process.env.PORT;
@@ -22,6 +23,11 @@ app.use(cookieParser(process.env.COOKIE_SECRET))//Firmo la cookie
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(express.static(__dirname+'/public'))
+
+//motores de plantilla
+app.engine('handlebars',handlebars.engine())
+app.set('view engine', 'handlebars')
+app.set('views',__dirname+'/views')
 
 app.use(session({
     store: MongoStore.create({
@@ -37,15 +43,9 @@ app.use(session({
     saveUninitialized: true
 }))
 
-initializePassport()
+
 app.use(passport.initialize())
 app.use(passport.session())
-
-
-//motores de plantilla
-app.engine('handlebars',handlebars.engine())
-app.set('view engine', 'handlebars')
-app.set('views',__dirname+'/views')
 
 app.use('api/products', express.static(__dirname +'/public'))
 app.use('/api/carts',cartsRouter)
@@ -53,8 +53,11 @@ app.use('/api/products',productRouter)
 app.use('/api/mensaje',mensajes)
 
 //ruta raiz
-app.use('/',viewsRouter)
-app.use('/sessions', sessionRouter)
+app.use('/views',viewsRouter)
+app.use('/users', usersRouter)
+app.get('/',(req,res)=>{
+    res.redirect('/views/login')
+  })
 
 
 const httpServer = app.listen(port,(req,res)=>{

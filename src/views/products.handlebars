@@ -1,17 +1,24 @@
+<div>
+    <button onclick="window.location.href='/views/profile'">Perfil</button>
+    <button onclick="window.location.href='/views/chat'">Chat</button>
+    <button onclick="window.location.href='/api/products/'">Productos</button>
+    <button onclick="window.location.href='/views/agregar'">Cargar Productos</button>
+</div>
+<br/>
 <div class="container">
     <div class="row">
-        <div class="col-md-10"><h1 style="text-align: center;">¡{{user.first_name}} te damos la bienvenida!</h1></div>
-        <div class="col-md-2"><button onclick="window.location.href='/sessions/logout'" style="margin-top: 4%;">Cerrar Session</button></div>
+        <div class="col-md-10"><h1 style="text-align: center; color:white;">¡Te damos la bienvenida a nuestra tienda!</h1></div>
+        <div class="col-md-2"><button onclick="location.href='/users/logout'" style="margin-top: 4%;">Cerrar Session</button>
+        <button class="btn btn-outline-primary" onclick="window.location.href='/views/profile'">👤</button>
+        </div>
     </div>
 </div>
 <div style="display: flex">
 <br>
-    <h3 style="font-family: 'Courier New', Courier, monospace;">Mis Productos</h1>
-    <a href="/agregar" style="text-decoration: none; color: black;margin-left:1%;"><h3>+</h3></a>
+    <h3 style="font-family: 'Courier New', Courier, monospace;color:white">Todos los Productos</h1>
+    <a href="/views/agregar" style="text-decoration: none; color: black;margin-left:1%;"><h3>+</h3></a>
 </div>
 <br>
-<h5 style="font-family: 'Courier New', Courier, monospace; margin-left: 85%">Status: {{pagProducts.status}}</h2>
-
 <ul id="docs" style="font-family: 'Courier New', Courier, monospace;margin:2rem;display: flex;
     flex-wrap: wrap">
     {{#each pagProducts.docs}}
@@ -20,7 +27,8 @@
         <p><strong>title:</strong> {{this.title}}</p>
         <p><strong>description:</strong>{{this.description}}</p>
         <p><strong>thumbnails:</strong> {{this.thumbnails}}</p>
-        <p><strong>price:</strong> {{this.price}}</p>
+        <p><strong>precio:</strong> {{this.precio}}</p>
+        <p><strong>status:</strong>{{this.status}}</p>
         <p><strong>code:</strong> {{this.code}}</p>
         <p><strong>stock:</strong> {{this.stock}}</p>
         <p><strong>category:</strong> {{this.category}}</p>
@@ -39,7 +47,7 @@
     <button class="btn-left btn-disabled" style="background-color:blanchedalmond;">Anterior</button>
     </a>
     {{/if}}
-    <h2 style="margin-left: 3%;margin-right: 3%">{{pagProducts.page}} de {{pagProducts.totalPages}}</h2>
+    <h2 style="margin-left: 3%;margin-right: 3%; color:white">{{pagProducts.page}} de {{pagProducts.totalPages}}</h2>
     {{#if pagProducts.hasNextPage}}
     <a href={{pagProducts.nextLink}} >
     <button class="btn-right" style="background-color:blanchedalmond;">Siguiente</button>

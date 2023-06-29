@@ -1,8 +1,9 @@
 import passport from "passport";
 import UserModel from "./persistencia/models/user.model.js"
 import { Strategy as LocalStrategy } from "passport-local";
-import {compareData} from "./utils.js"
+import {compareData, hashData} from "./utils.js"
 import { Strategy as GithubStrategy } from "passport-github2";
+import { ExtractJwt, Strategy as jwtStrategy } from "passport-jwt";
 
 passport.use(
     'login',
@@ -77,6 +78,20 @@ passport.use(
             done(error)
         }
     }))
+
+// //jwt strategy
+//  const cookieExtractor = (req) => {
+//     const token = req.cookies.token
+//     return token
+//  }
+
+//  passport.use('jwtCookies', new jwtStrategy({
+//     jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
+//     secretOrKey: process.env.SECRET_KEY
+//  },async(jwt_payload, done) => {
+//     done(null, jwt_payload)
+//  }
+//  ))
 
 passport.serializeUser((user, done) => {
     done(null, user._id)

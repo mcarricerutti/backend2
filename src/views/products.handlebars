@@ -3,11 +3,13 @@
     <button onclick="window.location.href='/views/chat'">Chat</button>
     <button onclick="window.location.href='/api/products/'">Productos</button>
     <button onclick="window.location.href='/views/agregar'">Cargar Productos</button>
+    <button onclick="window.location.href='/api/carts/'">Carrito</button>
 </div>
 <br/>
 <div class="container">
     <div class="row">
         <div class="col-md-10"><h1 style="text-align: center; color:white;">¡Te damos la bienvenida a nuestra tienda!</h1></div>
+
         <div class="col-md-2"><button onclick="location.href='/users/logout'" style="margin-top: 4%;">Cerrar Session</button>
         <button class="btn btn-outline-primary" onclick="window.location.href='/views/profile'">👤</button>
         </div>
@@ -34,6 +36,9 @@
         <p><strong>category:</strong> {{this.category}}</p>
         <br>
     </li>
+    <div>
+        <button class="postButton btn btn-success btn-block" data-id={{this._id}}>Comprar</button>
+    </div>
     {{/each}}
 </ul>
 

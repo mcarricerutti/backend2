@@ -10,10 +10,11 @@ import express from 'express';
 import './persistencia/dbConfig.js'
 import usersRouter from "./routes/session.router.js"
 import session from 'express-session'
-import MongoStore from 'connect-mongo'
+import mongoStore from 'connect-mongo'
 import cookieParser from "cookie-parser";
 import passport from 'passport'
 import './passportEstrategies.js'
+// import routerJWT from "./routes/jwt.router.js"
 // import FileStore from 'session-file-store'
 
 const app = express()
@@ -30,7 +31,7 @@ app.set('view engine', 'handlebars')
 app.set('views',__dirname+'/views')
 
 app.use(session({
-    store: MongoStore.create({
+    store: new mongoStore({
         mongoUrl: process.env.URL_MONGODB_ATLAS,
         dbName: 'session-mongo-storage',
         mongoOptions: {
@@ -55,6 +56,7 @@ app.use('/api/mensaje',mensajes)
 //ruta raiz
 app.use('/views',viewsRouter)
 app.use('/users', usersRouter)
+// app.use('/jwt',routerJWT)
 app.get('/',(req,res)=>{
     res.redirect('/views/login')
   })

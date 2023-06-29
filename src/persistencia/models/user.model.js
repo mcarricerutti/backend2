@@ -25,9 +25,13 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  cart: {
+    type: [{ type: mongoose.SchemaTypes.ObjectId, ref: "carts" }],
+  },
   isAdmid: {
-      type: Boolean,
-      default: false
+      type: String,
+      enum: ["usuario", "administrador"],
+      default: "usuario"
   }
 });
 

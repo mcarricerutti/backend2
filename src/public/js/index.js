@@ -177,19 +177,54 @@ formDeleteProducts.addEventListener("submit",(e)=>{
     })
 })
 
-//Agregar prod a carrito por POSTMAN
+
+//AggCarrito
+const postButtons=document.querySelectorAll('.postButton');
+postButtons.forEach(postButton=>{postButton.addEventListener('click', (e)=>{
+    if(e.target.dataset.id===postButton.dataset.id) {
+        addToCart(postButton.dataset.id).then(()=>window.location.href = "http://localhost:8080/api/carts/{{../cartId}}");
+    }
+})})
+
+//Agregar al carrito de ID hardcodeado
 const addToCart= async (pid)=>{
-  try {
-      const response= await fetch(`http://localhost:4000/api/carts/64720463593e5253c5d05510/product/${pid}`,{
-          method: 'POST',
-          headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({"quantity": 1}),
-      });
-      console.log('Completed!', response);
-  } catch (error) {
-      console.error(`Error: ${error}`);
-  }
+    try {
+        const response= await fetch(`http://localhost:8080/api/carts/{{../cartId}}/product/${pid}`,{
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({"quantity": 1}),
+        });
+        console.log('Completed!', response);
+    } catch (error) {
+        console.error(`Error: ${error}`);
+    }
 };
+
+//Delete from CART ----------------------------------------------------------------------------
+const deleteButtons=document.querySelectorAll('.deleteButton');
+deleteButtons.forEach(deleteButton=>{deleteButton.addEventListener('click', (e)=>{
+    if(e.target.dataset.id===deleteButton.dataset.id) {
+        deleteFromCart(deleteButton.dataset.id);
+        window.location.reload();
+    }
+} )});
+
+//Eliminar del carrito de ID hardcodeado
+const deleteFromCart= async (pid)=>{
+    try {
+        const response= await fetch(`http://localhost:8080/api/carts/{{../cartId}}/product/${pid}`,{
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        });
+        console.log('Completed!', response);
+    } catch (error) {
+        console.error(`Error: ${error}`);
+    }
+}
+

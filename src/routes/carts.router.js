@@ -12,8 +12,8 @@ cartRouter.post('/createcart', async (req, res) => {
     catch(error){
         res.send("ERROR: " + error);
     }
-    
 });
+
 cartRouter.get('/', async (req, res) => {
     try {
         const cart=await cartModel.find();//obtenemos los carritos

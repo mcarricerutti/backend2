@@ -27,6 +27,10 @@ router.get("/home", (req,res) => {
   res.render("home")
 })
 
+router.get("/carrito", (req,res) => {
+  res.render("carts")
+})
+
 
 
 router.get('/signup',(req,res)=>{

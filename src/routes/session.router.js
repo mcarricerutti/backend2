@@ -1,8 +1,7 @@
 import { Router } from 'express'
 import UserModel from "../persistencia/models/user.model.js"
-import "../utils.js"
-import { compareData, hashData } from '../utils.js'
-// import { compare } from 'bcrypt'
+import "../utils/utils.js"
+import { compareData, hashData } from '../utils/utils.js'
 import passport from 'passport'
 
 

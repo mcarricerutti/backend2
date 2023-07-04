@@ -1,21 +1,19 @@
 import { Server } from 'socket.io'
 import 'dotenv/config'
-import { __dirname } from './utils.js'
+import { __dirname } from './utils/utils.js'
 import handlebars from 'express-handlebars'
 import viewsRouter from './routes/views.router.js'
 import mensajes from './routes/message.router.js'
 import cartsRouter from './routes/carts.router.js'
 import productRouter from './routes/products.router.js'
 import express from 'express';
-import './persistencia/dbConfig.js'
+import './config/dbConfig.js'
 import usersRouter from "./routes/session.router.js"
 import session from 'express-session'
 import mongoStore from 'connect-mongo'
 import cookieParser from "cookie-parser";
 import passport from 'passport'
-import './passportEstrategies.js'
-// import routerJWT from "./routes/jwt.router.js"
-// import FileStore from 'session-file-store'
+import './passport/passportEstrategies.js'
 
 const app = express()
 const port = process.env.PORT;
@@ -56,7 +54,6 @@ app.use('/api/mensaje',mensajes)
 //ruta raiz
 app.use('/views',viewsRouter)
 app.use('/users', usersRouter)
-// app.use('/jwt',routerJWT)
 app.get('/',(req,res)=>{
     res.redirect('/views/login')
   })

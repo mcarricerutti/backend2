@@ -8,9 +8,8 @@ const port = process.env.PORT;
 
 router.get("/", async (req, res) => {
   try {
-      const { limit, page, sort, query } = req.query; //obtenemos el query limit page sort y query
-      const objQuery = query!=undefined?JSON.parse(query):undefined;//query debe escribisrse en formato JSON en URL {"category":"kites","status":"true"}
-      //console.log(objQuery);
+      const { limit, page, sort, query } = req.query;
+      const objQuery = query!=undefined?JSON.parse(query):undefined;
       const queryFail=query!=undefined?Object.keys(objQuery).some(key => {return (key != "category" && key != "status")}):undefined;
   
       let paginatedProducts = await productModel.paginate(
@@ -18,7 +17,7 @@ router.get("/", async (req, res) => {
         objQuery??{},
   
         //Segundo parametro: opciones
-        {limit: limit??10, page: page??1, sort: {price: sort}, lean: true}//Lean es para formato de objeto
+        {limit: limit??10, page: page??1, sort: {price: sort}, lean: true}
         
       );    
       const limitString=limit!=undefined?`limit=${limit}&`:'';
@@ -51,8 +50,8 @@ router.get("/", async (req, res) => {
 router.get("/:pid", async (req, res) => {
   try {
     const pid = req.params.pid;
-    const product = await productModel.findById(pid); //obtenemos los productos
-    res.send(product); //enviamos los productos
+    const product = await productModel.findById(pid)
+    res.send(product);
   } catch (error) {
     res.send("ERROR: " + error);
   }
